@@ -5,7 +5,10 @@ function hasRequiredFields(data) {
     return (
         typeof data.title === "string" && data.title.trim() &&
         typeof data.genre === "string" && data.genre.trim() &&
-        data.year !== undefined && data.year !== null && data.year !== ""
+        data.year !== undefined && data.year !== null && data.year !== "" &&
+        typeof data.description === "string" && data.description.trim() &&
+        typeof data.image === "string" && data.image.trim()&&
+        typeof data.price === number && data.price.trim()
     );
 }
 
@@ -15,7 +18,7 @@ function isValidId(id) {
 
 function validateGame(req, res) {
     if (!hasRequiredFields(req.body)) {
-        res.status(400).json({ mensaje: "Faltan los campos obligatorios: title, genre y year" });
+        res.status(400).json({ mensaje: "Faltan los campos obligatorios: title, genre, year, description, image y price" });
         return false;
     }
 
@@ -35,7 +38,10 @@ exports.createGame = async (req, res, next) => {
             title: req.body.title,
             genre: req.body.genre,
             year: Number(req.body.year),
-            platform: req.body.platform
+            platform: req.body.platform,
+            description: req.body.description,
+            image: req.body.image,
+            price: Number(req.body.price)
         });
         res.status(201).json(game);
     } catch (error) {
@@ -77,7 +83,10 @@ exports.updateGame = async (req, res, next) => {
             title: req.body.title,
             genre: req.body.genre,
             year: Number(req.body.year),
-            platform: req.body.platform
+            platform: req.body.platform,
+            description: req.body.description,
+            image: req.body.image,
+            price: Number(req.body.price)
         }, {
             new: true,
             runValidators: true
