@@ -7,8 +7,8 @@ function hasRequiredFields(data) {
         typeof data.genre === "string" && data.genre.trim() &&
         data.year !== undefined && data.year !== null && data.year !== "" &&
         typeof data.description === "string" && data.description.trim() &&
-        typeof data.image === "string" && data.image.trim()&&
-        typeof data.price === number && data.price.trim()
+        typeof data.image === "string" && data.image.trim() &&
+        data.price !== undefined && data.price !== null && data.price !== ""
     );
 }
 
@@ -24,6 +24,11 @@ function validateGame(req, res) {
 
     if (!Number.isFinite(Number(req.body.year))) {
         res.status(400).json({ mensaje: "El campo year debe ser un número" });
+        return false;
+    }
+
+    if (!Number.isFinite(Number(req.body.price))) {
+        res.status(400).json({ mensaje: "El campo price debe ser un número" });
         return false;
     }
 
