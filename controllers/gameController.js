@@ -56,7 +56,19 @@ exports.createGame = async (req, res, next) => {
 
 exports.getGames = async (req, res, next) => {
     try {
-        const games = await Game.find();
+        const filter = {};
+
+        if (req.query.genre) {
+            filter.genre = req.query.genre;
+        }
+        if (req.query.platform) {
+            filter.platform = req.query.platform;
+        }
+        if (req.query.year) {
+            filter.year = Number(req.query.year);
+        }
+
+        const games = await Game.find(filter);
         res.status(200).json(games);
     } catch (error) {
         next(error);
